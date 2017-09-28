@@ -1,11 +1,11 @@
-R João j.lucas.gouveia@gmail.com
-R Sueli sueeli.gouveia@hotmail.com
-D Cecilia
-D Elson
-R Othilia othiliagouveia@gmail.com
-R Jaqueline jaque.veloso@hotmail.com
-D Jose
-R Junior junior.juarez@gmail.com
-D Lourdes
-R Suellen suellenebreno@gmail.com
-D Breno
+R João j.lucas.gouveia@gmail.com 42 G
+R Sueli sueeli.gouveia@hotmail.com 37 G
+D Cecilia 25 G
+D Elson 42 GG
+R Othilia othiliagouveia@gmail.com 37 M
+R Jaqueline jaque.veloso@hotmail.com 37 M
+D Jose 41 G
+R Junior junior.juarez@gmail.com 40 M
+D Lourdes 35 G
+R Suellen suellenebreno@gmail.com 37 M
+D Breno 42 G

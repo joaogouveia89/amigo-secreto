@@ -30,20 +30,40 @@ public class Main {
 		sorteia();
 		
 		for(Responsavel resp : responsaveis){
-			System.out.println(resp.getNome() + " tirou " + resp.getSorteado());
+			System.out.println(resp.getNome() + " tirou " + resp.getSorteado() + " ---- calcado: " + buscaCalcado(resp.getSorteado()) + ", roupa: " + buscaRoupa(resp.getSorteado()));
 		}
 		for(Dependente dep : dependentes){
-			System.out.println(dep.getNome() + " tirou " + dep.getSorteado());
+			System.out.println(dep.getNome() + " tirou " + dep.getSorteado() + " ---- calcado: " + buscaCalcado(dep.getSorteado()) + ", roupa: " + buscaRoupa(dep.getSorteado()));
 		}
 		
 		//envio de emails
 		SendMail sm = new SendMail("smtp.gmail.com","465");
+		String mensagem;
 		for(Responsavel r : responsaveis){
-			sm.sendMail(EMAIL_FROM, r.getEmail(), "Amigo Secreto", "Ola "+ r.getNome() + " voce tirou " + r.getSorteado());
+			mensagem =  "Ola "+
+					r.getNome() +
+					" voce tirou " +
+					r.getSorteado() +
+					" no amigo secreto e ele(a) usa sapatos tamanho " + 
+					buscaCalcado(r.getSorteado()) + 
+					" e roupa tamanho " +
+					buscaRoupa(r.getSorteado());
+			sm.sendMail(EMAIL_FROM, r.getEmail(), "Amigo Secreto", mensagem);
 		}
 		
 		for(Dependente d : dependentes){
-			sm.sendMail(EMAIL_FROM, d.getResponsavel().getEmail(), "Amigo Secreto", "Ola "+ d.getResponsavel().getNome() + " avise o(a) " + d.getNome() +" que ele(a) tirou " + d.getSorteado() + " no amigo secreto!");
+			mensagem =  "Ola "+
+					d.getResponsavel().getNome() +
+					" avise o(a) " +
+					d.getNome() +
+					" que ele(a) tirou " + 
+					d.getSorteado() + 
+					" no amigo secreto e o(a) sorteado(a) usa sapatos tamanho " + 
+					buscaCalcado(d.getSorteado()) + 
+					" e roupa tamanho " +
+					buscaRoupa(d.getSorteado());
+			
+			sm.sendMail(EMAIL_FROM, d.getResponsavel().getEmail(),"Amigo Secreto", mensagem);
 		}
 		System.out.println("Emails enviados com sucesso");
 		
@@ -119,6 +139,32 @@ public class Main {
 		}
 		return false;
 	}
+	
+	private static String buscaCalcado(String nome){
+		for(Responsavel resp : responsaveis){
+			if(resp.getNome().equals(nome))
+				return resp.getCalcado();
+		}
+		for(Dependente dep : dependentes){
+			if(dep.getNome().equals(nome))
+				return dep.getCalcado();
+		}
+		return null;
+	}
+	
+	private static String buscaRoupa(String nome){
+		for(Responsavel resp : responsaveis){
+			if(resp.getNome().equals(nome))
+				return resp.getRoupa();
+		}
+		for(Dependente dep : dependentes){
+			if(dep.getNome().equals(nome))
+				return dep.getRoupa();
+		}
+		return null;
+	}
+	
+
 
 	private static void preencherArrays(){
 		BufferedReader br = null;
@@ -140,6 +186,8 @@ public class Main {
 					String splited[] = sCurrentLine.split(" ");
 					r.setNome(splited[1]);
 					r.setEmail(splited[2]);
+					r.setCalcado(splited[3]);
+					r.setRoupa(splited[4]);
 					responsaveis.add(r);
 					ultimoResponsavel = r;
 				}else if(sCurrentLine.charAt(0) == 'D'){
@@ -147,6 +195,8 @@ public class Main {
 					String splited[] = sCurrentLine.split(" ");
 					d.setNome(splited[1]);
 					d.setResponsavel(ultimoResponsavel);
+					d.setCalcado(splited[2]);
+					d.setRoupa(splited[3]);
 					dependentes.add(d);
 				}
 			}
